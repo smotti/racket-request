@@ -14,8 +14,8 @@
 (define (put requester url data #:headers [headers '()])
   ((requester-put requester) url data #:headers headers))
 
-(define (post requester url data #:headers [headers '()])
-  ((requester-post requester) url data #:headers headers))
+(define (post requester url data #:headers [headers '()] #:files [files #hasheq()])
+  ((requester-post requester) url data #:headers headers #:files files))
 
 (define (delete requester url #:headers [headers '()])
   ((requester-delete requester) url #:headers headers))
