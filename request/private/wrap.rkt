@@ -18,21 +18,21 @@
 
 
 (define (wrap-requester-location location-func requester)
-  (define ((wrapper handler) location #:headers [headers '()] . rest)
-    (apply handler (location-func location) #:headers headers rest))
+  (define ((wrapper handler) location #:headers [headers '()] #:files [files #hasheq()] . rest)
+    (apply handler (location-func location) #:headers headers #:files files rest))
   (wrap-requester wrapper requester))
 
 (define (wrap-requester-body body-func requester)
-  (define ((wrapper handler) location #:headers [headers '()] . rest)
-    (apply handler location #:headers headers (map body-func rest)))
+  (define ((wrapper handler) location #:headers [headers '()] #:files [files #hasheq()] . rest)
+    (apply handler location #:headers headers #:files files (map body-func rest)))
   (wrap-requester wrapper requester))
 
 (define (wrap-requester-response response-func requester)
-  (define ((wrapper handler) location #:headers [headers '()] . rest)
-    (response-func (apply handler location #:headers headers rest)))
+  (define ((wrapper handler) location #:headers [headers '()] #:files [files #hasheq()] . rest)
+    (response-func (apply handler location #:headers headers #:files rest)))
   (wrap-requester wrapper requester))
 
 (define (add-requester-headers base-headers requester)
-  (define ((wrapper handler) location #:headers [headers '()] . rest)
-    (apply handler location #:headers (append base-headers headers) rest))
+  (define ((wrapper handler) location #:headers [headers '()] #:files [files #hasheq()] . rest)
+    (apply handler location #:headers (append base-headers headers) #:files files rest))
   (wrap-requester wrapper requester))
